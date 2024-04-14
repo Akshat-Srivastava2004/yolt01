@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-// import userRouter from './routes/user.routes.js';
+import userRouter from './routes/user.routes.js';
 
 console.log("inside the app.js file");
 // MIDDLEWARE
@@ -36,6 +36,6 @@ app.use(cookieParser())
 
 app.use(cors({
     origin: 'https://yolt01.onrender.com'
-  }));
+  }),userRouter);
 
 export { app };
