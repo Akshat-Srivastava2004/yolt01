@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #66bb6a;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .delete-btn,
+        .block-btn {
+            background-color: #e74c3c; /* Red buttons */
+            color: #fff; /* White text */
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bus Available</h1>
+    <table id="userTable">
+        <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Date</th>
+            <th>Class</th>
+            <th>Search Time</th>
+            <th>Book Now</th>
+        </tr>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            displaySchedule();
+        });
+
+        function getCookie(cookiedata) {
+            const cookies = document.cookie.split(';');
+            console.log("------cookie----",cookies); 
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim(); 
+                if (cookie.startsWith(cookiedata + '=')) {
+                    const cookieValue = cookie.substring(cookiedata.length + 1);
+                    console.log("------------the cookie value is ",cookieValue)
+                    const userDetailsObject = {};
+                    const data= JSON.parse(decodeURIComponent(cookieValue));
+
+                    if (data && data.allTicketDetails) {
+                        data.allTicketDetails.forEach((item, index) => {
+                            userDetailsObject[index] = item;
+                        });
+                        return userDetailsObject;
+                    }
+                }
+            }
+        }
+
+        async function displaySchedule(){
+            const Busschedule = getCookie('allTicketDetails');
+            console.log('Ticket details:', Busschedule);
+
+            const userTable = document.getElementById('userTable');
+
+            for (let key in Busschedule) {
+                if (Busschedule.hasOwnProperty(key)) {
+                    const user = Busschedule[key];
+                    const row = userTable.insertRow();
+
+                    const From = row.insertCell(0);
+                    From.textContent = user.From;
+
+                    const To = row.insertCell(1);
+                    To.textContent = user.To;
+
+                    const Date = row.insertCell(2);
+                    Date.textContent = user.Date;
+
+                    const Class = row.insertCell(3);
+                    Class.textContent = user.Class;
+
+                    const SearchTime = row.insertCell(4);
+                    SearchTime.textContent = user.createdAt;
+
+                    const BookNow = row.insertCell(5);
+                    const BookNowButton = document.createElement('button');
+                    BookNowButton.textContent = 'Book Now';
+                    BookNowButton.classList.add("delete-btn"); // corrected class name
+                    BookNow.appendChild(BookNowButton); // corrected function name
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #66bb6a;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .delete-btn,
+        .block-btn {
+            background-color: #e74c3c; /* Red buttons */
+            color: #fff; /* White text */
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <h1>Passenger Detail</h1>
+    <table id="userTable">
+        <tr>
+            <th>Passenger Name</th>
+            <th>Username</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+        </tr>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            displaySchedule01();
+        });
+
+        async function displaySchedule01(){
+            const response = await fetch("http://localhost:5000/api/v1/users/Userdetail");
+            const data = await response.json();
+            const data01=data.alluserdetail;
+            displaySchedule(data01);
+        }
+
+      
+
+        function displaySchedule(userdetail){
+            const userTable = document.getElementById('userTable');
+
+            for (let key in userdetail) {
+                if (userdetail.hasOwnProperty(key)) {
+                    const user = userdetail[key];
+                    const row = userTable.insertRow();
+
+                    const PassengerName = row.insertCell(0);
+                    PassengerName.textContent = user.Name;
+
+                    const username = row.insertCell(1);
+                    username.textContent = user.username;
+
+                    const PhoneNumber = row.insertCell(2);
+                    PhoneNumber.textContent = user.PhoneNumber;
+
+                    const Address = row.insertCell(3);
+                    Address.textContent = user.Address;
+
+                
+                }
+            }
+        }
+    </script>
+</body>
+</html>
