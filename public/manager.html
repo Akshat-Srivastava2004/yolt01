@@ -76,7 +76,7 @@
         });
 
         async function displaySchedule01(){
-            const response = await fetch("http://localhost:5000/api/v1/users/Userdetail");
+            const response = await fetch("https://yolt01.onrender.com/Userdetail");
             const data = await response.json();
             const data01=data.alluserdetail;
             displaySchedule(data01);
