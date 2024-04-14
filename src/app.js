@@ -36,6 +36,6 @@ app.use(cookieParser())
 
 app.use(cors({
     origin: 'https://yolt01.onrender.com'
-  }), userRouter);
+  }));
 
 export { app };
